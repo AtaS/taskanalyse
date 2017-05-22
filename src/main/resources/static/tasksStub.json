@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "name": "setupVM"
+  },
+  {
+    "id": "2",
+    "name": "setupDocker"
+  },
+  {
+    "id": "3",
+    "name": "installAppX"
+  },
+  {
+    "id": "4",
+    "name": "runAppX"
+  },
+  {
+    "id": "5",
+    "name": "isAppXAlive"
+  }
+]
