@@ -117,7 +117,6 @@ public class TaskService {
 
                 } catch (Exception e) {
                     logger.error("Couldn't ping subscriber url " + url, e);
-                    e.printStackTrace();
                 }
             });
             executorService.shutdown();

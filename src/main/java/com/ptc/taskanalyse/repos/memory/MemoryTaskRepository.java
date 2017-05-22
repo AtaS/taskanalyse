@@ -61,7 +61,6 @@ public class MemoryTaskRepository implements TaskRepository {
 
         } catch (IOException e) {
             logger.error("Can't read file " + tasksStubJsonFileName, e);
-            e.printStackTrace();
         }
     }
 

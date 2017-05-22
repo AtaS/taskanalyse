@@ -68,7 +68,6 @@ public class TasksController {
             taskService.setPerformed(taskId, duration);
         } catch (Exception ex) {
             logger.error("Exception in /tasks/taskId/perform endpoint", ex);
-            ex.printStackTrace();
             return new ResponseEntity<>(new BooleanResponse("error"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(new BooleanResponse(true), HttpStatus.OK);
