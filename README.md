@@ -59,3 +59,8 @@
  
  ![Diagram](/_docs/diagram.png)
  
+ ### Postman
+ Please use the below postman configuration to be able to post to /tasks/{taskId}/perform endpoint.
+ 
+ ![Diagram](/_docs/postman.png)
+ 
