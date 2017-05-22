@@ -54,7 +54,8 @@ Form data: url=http://...
  - Setup automated deployments to UAT environment upon successfully passing of all tests after pushing to git repo
  - Add test coverage analysis maven mojos
  - Add PM, Maven code quality  / analysis plugin
- - Add MySQL db implementation for persistent storage i.e. MySQLTaskRepository implements TaskRepository 
+ - Add MySQL db implementation for persistent storage i.e. MySQLTaskRepository implements TaskRepository
+ - Add clientId check to restrict who can call which endpoint, Spring Security and OAuth can be good to use.
 
 PS: pub/sub can have good amount of different scenarios and it can have many tests to cover these scenarios, so skipped them for now. We can discuss about these verbally if you like.
  

@@ -1,5 +1,6 @@
 package com.ptc.taskanalyse.services;
 
+import com.ptc.taskanalyse.logic.PublishLogic;
 import com.ptc.taskanalyse.models.Task;
 import com.ptc.taskanalyse.models.TaskDurationInfo;
 import com.ptc.taskanalyse.repos.TaskRepository;
@@ -8,14 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 /**
  * Created by asasmaz on 20/05/2017.
@@ -45,6 +43,7 @@ public class TaskService {
      * @param duration
      */
     public void setPerformed(int id, double duration) {
+        logger.info("Setting task performed", id);
         double newAvgDuration = recalculateAverageDuration(id, duration);
 
         Set<String> subscribers = taskRepository.getSubscribers(id);
@@ -58,6 +57,7 @@ public class TaskService {
      * @param taskId
      */
     public double recalculateAverageDuration(int taskId, double newDuration) {
+        logger.info("Recalculating average duration", taskId);
         TaskDurationInfo info = taskRepository.getDurationInfo(taskId);
 
         double newAvgDuration =
@@ -88,6 +88,7 @@ public class TaskService {
      * @param url fully qualified HTTP url
      */
     public void subscribe(int taskId, String url) {
+        logger.info("Subscribing to the task", taskId);
         taskRepository.subscribe(taskId, url);
     }
 
@@ -96,30 +97,7 @@ public class TaskService {
      * @param subscribers
      */
     private void publishSubscribers(Set<String> subscribers) {
-        ExecutorService executorService = Executors.newFixedThreadPool(10);
-
-        if (subscribers == null)
-            return;
-
-        for (String url : subscribers) {
-            executorService.execute(() -> {
-                try {
-                    logger.info("Calling subscriber URL " + url);
-                    URL subUrl = new URL(url);
-                    URLConnection subConn = subUrl.openConnection();
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(
-                                    subConn.getInputStream()));
-                    String inputLine;
-                    while ((inputLine = in.readLine()) != null)
-                        System.out.println(inputLine);
-                    in.close();
-
-                } catch (Exception e) {
-                    logger.error("Couldn't ping subscriber url " + url, e);
-                }
-            });
-            executorService.shutdown();
-        }
+        PublishLogic publishLogic = new PublishLogic();
+        publishLogic.publishToSubscribers(subscribers);
     }
 }
