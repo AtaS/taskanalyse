@@ -26,9 +26,6 @@ public class TasksController {
     @Autowired
     TaskService taskService;
 
-    @Autowired
-    CacheManager cacheManager;
-
     /**
      * Get all the tasks endpoint
      * @return array of task objects
