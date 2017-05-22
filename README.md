@@ -46,6 +46,14 @@
  - **Standardised error handling** everywhere that helps debugging the issues clearly. e.g. don't return HTTP 500 error, throw an exception that will mean HTTP 500 and re-use it.
  - **Continuous refactoring.** It can always be improved.
  
+ ### TODO
+ - Add Bean validation JSR-303 to validate incoming requests
+ - Integrate CI to run tests automatically upon pushing to git repo
+ - Setup automated deployments to UAT environment upon successfully passing of all tests after pushing to git repo
+ - Add test coverage analysis maven mojos
+ - Add PM, Maven code quality  / analysis plugin
+ - Add MySQL db implementation for persistent storage i.e. MySQLTaskRepository implements TaskRepository 
+ 
  
  ### Diagram
  
