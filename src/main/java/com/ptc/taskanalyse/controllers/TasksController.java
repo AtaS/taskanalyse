@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/tasks")
 public class TasksController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -33,7 +34,7 @@ public class TasksController {
      * Get all the tasks endpoint
      * @return array of task objects
      */
-    @GetMapping("/tasks")
+    @GetMapping("/")
     public Map<Integer, Task> getAll() {
         return taskService.getAll();
     }
@@ -43,7 +44,7 @@ public class TasksController {
      * @param taskId
      * @return
      */
-    @GetMapping("/tasks/{taskId}")
+    @GetMapping("/{taskId}")
     public Task get(@PathVariable int taskId) {
         return taskService.get(taskId);
     }
@@ -51,7 +52,7 @@ public class TasksController {
     /**
      * Mark a task as performed
      */
-    @PostMapping("/tasks/{taskId}/perform")
+    @PostMapping("/{taskId}/perform")
     //@CacheEvict(value = "avgTime", key = "#taskId") --not needed, Spring does this automatically when cache is updated
     public ResponseEntity<Object> perform(@PathVariable int taskId, @RequestParam Double duration) {
 
@@ -78,7 +79,7 @@ public class TasksController {
      * @param taskId
      * @return
      */
-    @GetMapping("/tasks/{taskId}/average")
+    @GetMapping("/{taskId}/average")
     @Cacheable(value = "avgTime", key = "#taskId")
     public SimpleResponse averageTime(@PathVariable int taskId) {
         return new SimpleResponse(taskService.getAverageDuration(taskId));
@@ -90,7 +91,7 @@ public class TasksController {
      * @param url
      * @return
      */
-    @PostMapping("/tasks/{taskId}/subscribe")
+    @PostMapping("/{taskId}/subscribe")
     public SimpleResponse subscribe(@PathVariable int taskId, @RequestParam String url) {
         taskService.subscribe(taskId, url);
         return new SimpleResponse("OK");
