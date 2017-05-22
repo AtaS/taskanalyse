@@ -2,20 +2,20 @@
 
 ## Endpoints in the application
 
-**GET /tasks** 
- - get all tasks
+**GET /tasks**  
+Get all tasks
 
-**GET /tasks/{taskId}**
- - get the task based on ID
+**GET /tasks/{taskId}**  
+Get the task based on ID
 
-**POST /tasks/{taskId}/perform**
- - Form data: duration=decimal  
+**POST /tasks/{taskId}/perform**  
+Form data: duration=decimal  
 
-**GET /tasks/{taskId}/average**
- - Get the current average running time
+**GET /tasks/{taskId}/average**  
+Get the current average running time
  
-**POST /tasks/{taskId}/subscribe**
-  - Form data: url=http://...
+**POST /tasks/{taskId}/subscribe**  
+Form data: url=http://...
   Subscribe to a task's finish and get updated on that URL.
  
  ## Implemented
