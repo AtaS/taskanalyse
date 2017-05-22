@@ -1,5 +1,7 @@
 # taskanalyse
 
+Based on Spring Boot.
+
 ## Endpoints in the application
 
 **GET /tasks**  
@@ -34,13 +36,13 @@ Form data: url=http://...
  ### Some of the best practices to follow all the time.
  
  - **Short methods**, as small as possible, possibly less than 20 lines each.
- - **Minimised nested logical blocks** i.e. no nesting if statements or loops
+ - **Minimised nested logical blocks** i.e. no nesting if statements or loops.  
     This has a crucial impact on understandable code in long term.
  - **Understandable method names**. If the method changes, update the name immediately.
  - **One definition for one thing everywhere** i.e. not having multiple names for same thing.
  - **Separation of layers**, 3-tier or n-tier architecture.
  - **Re-usability**. If a code is not re-usable, that should be a crucially important code to stay there, or it should't stay there.
- - **Unit tests and Integration tests**
+ - **Unit tests** and **Integration tests**
  - **Dependency Injection** to be able to plugin different implementations easily
  - **Comments** to describe business logic where method name is not clear enough. One shouldn't have to read and parse the code in the head to understand what the method is for.
  - **Standardised error handling** everywhere that helps debugging the issues clearly. e.g. don't return HTTP 500 error, throw an exception that will mean HTTP 500 and re-use it.
@@ -53,6 +55,8 @@ Form data: url=http://...
  - Add test coverage analysis maven mojos
  - Add PM, Maven code quality  / analysis plugin
  - Add MySQL db implementation for persistent storage i.e. MySQLTaskRepository implements TaskRepository 
+
+PS: pub/sub can have good amount of different scenarios and it can have many tests to cover these scenarios, so skipped them for now. We can discuss about these verbally if you like.
  
  
  ### Diagram
