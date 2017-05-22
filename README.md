@@ -39,7 +39,7 @@ Form data: url=http://...
  - **Minimised nested logical blocks** i.e. no nesting if statements or loops.  
     This has a crucial impact on understandable code in long term.
  - **Understandable method names**. If the method changes, update the name immediately.
- - **One definition for one thing everywhere** i.e. not having multiple names for same thing.
+ - **One definition for one thing everywhere** i.e. not having multiple names for the same thing.
  - **Separation of layers**, 3-tier or n-tier architecture.
  - **Re-usability**. If a code is not re-usable, that should be a crucially important code to stay there, or it should't stay there.
  - **Unit tests** and **Integration tests**
