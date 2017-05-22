@@ -35,6 +35,8 @@ public class MemoryTaskRepository implements TaskRepository {
     //Map of completed task's duration as {taskId, duration in milliseconds}
     private Map<Integer, List<Double>> durationMap = new HashMap<>();
 
+    private Map<Integer, Set<String>> subscribersMap = new HashMap<>();
+
     /**
      * Pass object mapper directly
      * @param jacksonObjectMapper
@@ -148,6 +150,19 @@ public class MemoryTaskRepository implements TaskRepository {
             readTasks();
 
         return taskMap.containsKey(id);
+    }
+
+    @Override
+    public void subscribe(int taskId, String url) {
+        if (!subscribersMap.containsKey(taskId))
+            subscribersMap.put(taskId, new HashSet<String>());
+
+        subscribersMap.get(taskId).add(url);
+    }
+
+    @Override
+    public Set<String> getSubscribers(int id) {
+        return subscribersMap.get(id);
     }
 
 

@@ -8,6 +8,10 @@ import com.ptc.taskanalyse.services.TaskService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +25,9 @@ public class TasksController {
 
     @Autowired
     TaskService taskService;
+
+    @Autowired
+    CacheManager cacheManager;
 
     /**
      * Get all the tasks endpoint
@@ -45,6 +52,7 @@ public class TasksController {
      * Mark a task as performed
      */
     @PostMapping("/tasks/{taskId}/perform")
+    //@CacheEvict(value = "avgTime", key = "#taskId") --not needed, Spring does this automatically when cache is updated
     public ResponseEntity<Object> perform(@PathVariable int taskId, @RequestParam Double duration) {
 
         // Check if task service exists
@@ -52,6 +60,8 @@ public class TasksController {
             logger.warn("Non-existing TaskId is queried in /tasks/taskId/perform endpoint", taskId, duration);
             throw new ResourceNotFoundException();
         }
+
+        cacheManager.getCache("avgTime").clear(); //TODO clear cache for only taskId
 
         try {
             taskService.setPerformed(taskId, duration);
@@ -69,8 +79,21 @@ public class TasksController {
      * @return
      */
     @GetMapping("/tasks/{taskId}/average")
+    @Cacheable(value = "avgTime", key = "#taskId")
     public SimpleResponse averageTime(@PathVariable int taskId) {
         return new SimpleResponse(taskService.getAverageDuration(taskId));
+    }
+
+    /**
+     * Subscribe to a task's completion and get notified
+     * @param taskId
+     * @param url
+     * @return
+     */
+    @PostMapping("/tasks/{taskId}/subscribe")
+    public SimpleResponse subscribe(@PathVariable int taskId, @RequestParam String url) {
+        taskService.subscribe(taskId, url);
+        return new SimpleResponse("OK");
     }
 
 }
