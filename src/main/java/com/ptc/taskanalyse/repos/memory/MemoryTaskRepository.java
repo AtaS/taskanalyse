@@ -83,9 +83,9 @@ public class MemoryTaskRepository implements TaskRepository {
 
         try {
             // completed durations for this task
-            long completedDurations = !durationsMap.containsKey(taskId) ? 0 : durationsMap.get(taskId).size();
-            int duration = Math.toIntExact(completedDurations);
-            info.setNumberOfFinishedTasks(duration);
+            long completedDurationsL = !durationsMap.containsKey(taskId) ? 0 : durationsMap.get(taskId).size();
+            int completedDurations = Math.toIntExact(completedDurationsL);
+            info.setNumberOfFinishedTasks(completedDurations);
         } catch (ArithmeticException ex) {
             logger.error("Couldn't convert Long to Int, too many tasks? Time to use Long instead of Int", ex);
             throw new InternalServerErrorException(ex);
