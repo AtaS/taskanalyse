@@ -23,12 +23,20 @@ public class MemoryTaskRepositoryTest {
     @Test
     public void setPerformed() throws Exception {
         int numOfFinishedTasks = repo.getDurationInfo(1).getNumOfFinishedTasks();
-        Assert.assertEquals("There should be no finished tasks, yet", 0, numOfFinishedTasks, 0);
+        Assert.assertEquals("There should be no finished tasks, yet", 0, numOfFinishedTasks);
 
         repo.setPerformed(1, 5);
 
         numOfFinishedTasks = repo.getDurationInfo(1).getNumOfFinishedTasks();
-        Assert.assertEquals("There should be 1 finished task now", 1, numOfFinishedTasks, 0);
+        Assert.assertEquals("There should be 1 finished task now", 1, numOfFinishedTasks);
+
+        repo.setPerformed(1, 5);
+
+        numOfFinishedTasks = repo.getDurationInfo(1).getNumOfFinishedTasks();
+        Assert.assertEquals("There should be 2 finished tasks now", 2, numOfFinishedTasks);
+
+        numOfFinishedTasks = repo.getDurationInfo(2).getNumOfFinishedTasks();
+        Assert.assertEquals("There should be 0 finished tasks for TaskId 2", 0, numOfFinishedTasks);
     }
 
     @Test
