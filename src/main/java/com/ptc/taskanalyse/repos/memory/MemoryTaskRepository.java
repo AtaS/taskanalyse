@@ -30,20 +30,18 @@ public class MemoryTaskRepository implements TaskRepository {
     //Map of tasks as {taskId, task}
     private Map<Integer, Task> taskMap;
 
+    //Map avg duration of tasks as {taskId, duration in miliseconds}
     private Map<Integer, Double> avgDurations = new HashMap<>();
 
     //Map of completed task's duration as {taskId, duration in milliseconds}
     private Map<Integer, List<Double>> durationMap = new HashMap<>();
 
-    private Map<Integer, Set<String>> subscribersMap = new HashMap<>();
 
-    /**
-     * Pass object mapper directly
-     * @param jacksonObjectMapper
-     */
     public MemoryTaskRepository(@Autowired ObjectMapper jacksonObjectMapper) {
         this.jacksonObjectMapper = jacksonObjectMapper;
     }
+
+    private Map<Integer, Set<String>> subscribersMap = new HashMap<>();
 
     /**
      * Read the tasks in tasksStub
@@ -72,23 +70,12 @@ public class MemoryTaskRepository implements TaskRepository {
         durationMap.get(id).add(duration);
     }
 
-    /**
-     * Two operations together as atomic.
-     * @param taskId
-     * @param duration
-     * @param newAvgDuration
-     */
     @Override
     public void setPerformedWithAvgDuration(int taskId, double duration, double newAvgDuration) {
         setPerformed(taskId, duration);
         updateAverageDuration(taskId, newAvgDuration);
     }
 
-    /**
-     * Get the info about current avg duration and how many tasks has made up that avg duration
-     * @param taskId
-     * @return TaskDurationInfo object
-     */
     @Override
     public TaskDurationInfo getDurationInfo(int taskId) {
 
@@ -114,20 +101,11 @@ public class MemoryTaskRepository implements TaskRepository {
         return avgDuration == null ? -1 : avgDuration;
     }
 
-    /**
-     * Get a specific task
-     * @param id
-     * @return Task
-     */
     @Override
     public Task get(int id) {
         return getTaskMap().get(id);
     }
 
-    /**
-     * Get all tasks
-     * @return Map of all tasks as {id, task}
-     */
     @Override
     public Map<Integer, Task> getAll() {
         if (taskMap == null)
@@ -136,11 +114,6 @@ public class MemoryTaskRepository implements TaskRepository {
         return taskMap;
     }
 
-    /**
-     * Check if a task with a given ID exists
-     * @param id
-     * @return boolean
-     */
     @Override
     public boolean exists(int id) {
         if (taskMap == null)
