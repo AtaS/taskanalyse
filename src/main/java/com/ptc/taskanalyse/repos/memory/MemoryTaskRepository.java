@@ -34,7 +34,7 @@ public class MemoryTaskRepository implements TaskRepository {
     private Map<Integer, Double> avgDurations = new HashMap<>();
 
     //Map of completed task's duration as {taskId, duration in milliseconds}
-    private Map<Integer, List<Double>> durationMap = new HashMap<>();
+    private Map<Integer, List<Double>> durationsMap = new HashMap<>();
 
 
     public MemoryTaskRepository(@Autowired ObjectMapper jacksonObjectMapper) {
@@ -64,10 +64,10 @@ public class MemoryTaskRepository implements TaskRepository {
 
     @Override
     public void setPerformed(int id, double duration) {
-        if (!durationMap.containsKey(id))
-            durationMap.put(id, new ArrayList<>());
+        if (!durationsMap.containsKey(id))
+            durationsMap.put(id, new ArrayList<>());
 
-        durationMap.get(id).add(duration);
+        durationsMap.get(id).add(duration);
     }
 
     @Override
@@ -82,8 +82,9 @@ public class MemoryTaskRepository implements TaskRepository {
         TaskDurationInfo info = new TaskDurationInfo();
 
         try {
-            long longDuration = durationMap.entrySet().stream().filter(d -> d.getKey() == taskId).count();
-            int duration = Math.toIntExact(longDuration);
+            // completed durations for this task
+            long completedDurations = !durationsMap.containsKey(taskId) ? 0 : durationsMap.get(taskId).size();
+            int duration = Math.toIntExact(completedDurations);
             info.setNumberOfFinishedTasks(duration);
         } catch (ArithmeticException ex) {
             logger.error("Couldn't convert Long to Int, too many tasks? Time to use Long instead of Int", ex);

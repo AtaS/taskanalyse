@@ -23,47 +23,51 @@ public class MemoryTaskRepositoryTest {
     @Test
     public void setPerformed() throws Exception {
         int numOfFinishedTasks = repo.getDurationInfo(1).getNumOfFinishedTasks();
-        Assert.assertTrue("There should be no finished tasks, yet", numOfFinishedTasks == 0);
+        Assert.assertEquals("There should be no finished tasks, yet", 0, numOfFinishedTasks, 0);
 
         repo.setPerformed(1, 5);
 
         numOfFinishedTasks = repo.getDurationInfo(1).getNumOfFinishedTasks();
-        Assert.assertTrue("There should be 1 finished task now", numOfFinishedTasks == 1);
+        Assert.assertEquals("There should be 1 finished task now", 1, numOfFinishedTasks, 0);
     }
 
     @Test
     public void setPerformedWithAvgDuration() throws Exception {
         TaskService service = new TaskService(repo);
         TaskDurationInfo durInfo = repo.getDurationInfo(1);
-        Assert.assertTrue(
-                "There should be no finished tasks, yet",
-                durInfo.getNumOfFinishedTasks() == 0
+        Assert.assertEquals(
+                "There should be no finished tasks, yet", 0, durInfo.getNumOfFinishedTasks(), 0
         );
-        Assert.assertTrue(
+        Assert.assertEquals(
                 "Average duration should not exist, i.e. should be -1",
-                durInfo.getCurrentAvgDuration() == -1
+                -1, durInfo.getCurrentAvgDuration(), 0
         );
 
         repo.setPerformedWithAvgDuration(1, 2, service.recalculateAverageDuration(1, 2));
         durInfo = repo.getDurationInfo(1);
-        Assert.assertTrue(
-                "There should be 1 finished task now",
-                durInfo.getNumOfFinishedTasks() == 1
+        Assert.assertEquals(
+                "There should be 1 finished task now", 1, durInfo.getNumOfFinishedTasks(), 0
         );
-        Assert.assertTrue(
-                "Average duration should be 3",
-                durInfo.getCurrentAvgDuration() == 2
+        Assert.assertEquals(
+                "Average duration should be 3", 2, durInfo.getCurrentAvgDuration(),0
         );
 
         repo.setPerformedWithAvgDuration(1, 6, service.recalculateAverageDuration(1, 6));
         durInfo = repo.getDurationInfo(1);
-        Assert.assertTrue(
-                "There should be 1 finished task now",
-                durInfo.getNumOfFinishedTasks() == 1
+        Assert.assertEquals(
+                "There should be 2 finished tasks now", 2, durInfo.getNumOfFinishedTasks()
         );
-        Assert.assertTrue(
-                "Average duration should be 4",
-                durInfo.getCurrentAvgDuration() == 4
+        Assert.assertEquals(
+                "Average duration should be 4", 4, durInfo.getCurrentAvgDuration(), 0
+        );
+
+        repo.setPerformedWithAvgDuration(1, 7, service.recalculateAverageDuration(1, 7));
+        durInfo = repo.getDurationInfo(1);
+        Assert.assertEquals(
+                "There should be 3 finished tasks now", 3, durInfo.getNumOfFinishedTasks()
+        );
+        Assert.assertEquals(
+                "Average duration should be 5", 5, durInfo.getCurrentAvgDuration(), 0
         );
     }
 
@@ -73,7 +77,7 @@ public class MemoryTaskRepositoryTest {
         repo.setPerformed(2, 5);
         repo.setPerformed(1, 5);
         TaskDurationInfo durInfo = repo.getDurationInfo(2);
-        Assert.assertTrue("There should be 1 finished task", durInfo.getNumOfFinishedTasks() == 1);
+        Assert.assertEquals("There should be 1 finished task", 1, durInfo.getNumOfFinishedTasks());
     }
 
     @Test
@@ -81,11 +85,11 @@ public class MemoryTaskRepositoryTest {
         TaskService service = new TaskService(repo);
         repo.setPerformedWithAvgDuration(2, 5, 5);
         repo.setPerformedWithAvgDuration(1, 10, 10);
-        Assert.assertTrue("Avg duration should be the initial 5", repo.getAverageDuration(2) == 5);
+        Assert.assertEquals("Avg duration should be the initial 5", 5,repo.getAverageDuration(2), 0);
 
         repo.setPerformedWithAvgDuration(2, 9, service.recalculateAverageDuration(2, 9));
 
-        Assert.assertTrue("Avg duration should be 7 now", repo.getAverageDuration(2) == 7);
+        Assert.assertEquals("Avg duration should be 7 now", 7, repo.getAverageDuration(2), 0);
     }
 
     @Test
