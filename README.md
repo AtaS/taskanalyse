@@ -43,7 +43,7 @@ Form data: url=http://...
  - **Separation of layers**, 3-tier or n-tier architecture.
  - **Re-usability**. If a code is not re-usable, that should be a crucially important code to stay there, or it should't stay there.
  - **Unit tests** and **Integration tests**
- - **Dependency Injection** to be able to plugin different implementations easily
+ - **Dependency Injection** to be able to plug in different implementations easily
  - **Comments** to describe business logic where method name is not clear enough. One shouldn't have to read and parse the code in the head to understand what the method is for.
  - **Standardised error handling** everywhere that helps debugging the issues clearly. e.g. don't return HTTP 500 error, throw an exception that will mean HTTP 500 and re-use it.
  - **Continuous refactoring.** It can always be improved.
@@ -53,7 +53,7 @@ Form data: url=http://...
  - Integrate CI to run tests automatically upon pushing to git repo
  - Setup automated deployments to UAT environment upon successfully passing of all tests after pushing to git repo
  - Add test coverage analysis maven mojos
- - Add PM, Maven code quality  / analysis plugin
+ - Add PMD, Maven code quality  / analysis plugin
  - Add MySQL db implementation for persistent storage i.e. MySQLTaskRepository implements TaskRepository
  - Add clientId check to restrict who can call which endpoint, Spring Security and OAuth can be good to use.
 
